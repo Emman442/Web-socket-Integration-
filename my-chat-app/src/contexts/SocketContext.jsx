@@ -29,6 +29,8 @@ export const SocketProvider = ({ children}) => {
           token: localStorage.getItem("token"),
         },
         withCredentials: true,
+        autoConnect: true,
+        reconnection: true,
       });
 
 
