@@ -1,14 +1,19 @@
 import React from 'react'
-import Logo from "../assets/react.svg"
+import { Outlet, useLocation } from 'react-router-dom';
 
 
-const AuthLayouts = ({children}) => {
+
+const AuthLayouts = () => {
+  const location = useLocation()
+  console.log(location.pathname)
   return (
     <>
-      <header className="flex items-center justify-center py-3 h-20 shadow-md bg-white">
-        <img src={Logo} alt="logo" width={80} height={60} />
-      </header>
-      {children}
+      {location.pathname !== "/chat"?<header className="w-full h-20 shadow-lg bg-[#18212F] ">
+        <div className='w-[80%] flex items-center py-3 mx-auto'>
+          <img src="/logo.png" alt="logo" width={100} height={70}  />
+          </div>
+      </header>: ""}
+      <Outlet/>
     </>
   );
 }

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,11 +14,14 @@ body {
 }
 
 .scrollbar::-webkit-scrollbar{
-  width: 10px;
+  width: 2px;
+  
 }
 .scrollbar::-webkit-scrollbar-track{
-  @apply bg-slate-100
+  @apply h-4;
+
 }
 .scrollbar::-webkit-scrollbar-thumb{
-  @apply bg-slate-200 rounded-full
+  @apply bg-slate-200 rounded-full h-4
+
 }

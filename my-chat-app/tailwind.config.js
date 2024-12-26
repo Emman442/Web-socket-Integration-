@@ -5,6 +5,12 @@ export default {
     extend: {
       primary: "#00acb4"
     },
+    fontFamily: {
+      custom: ["Raleway", "sans-serif"]
+    }
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+    // require('tailwind-scrollbar-hide'), // Optional for hiding scrollbars
+  ],
 };
