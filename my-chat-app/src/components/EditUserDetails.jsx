@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react'
-import Avatar from './Avatar'
 import { uploadFile } from '../helpers/uploadFile'
-import Divider from './Divider'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'

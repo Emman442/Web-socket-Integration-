@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Sidebar from "../components/Sidebar";
 import WalletConnectModal from "../components/WalletConnectModal";
 import { useSocket } from "../contexts/SocketContext";
+import Header from "../components/Header";
 
 export default function Home() {
   const [buttonClicked, setButtonClicked] = useState(false)
@@ -12,6 +12,7 @@ export default function Home() {
   return (
     <>
     {buttonClicked && <WalletConnectModal onClose={onClose}/>}
+    <Header/>
     <div className="bg-[#111827] h-[88vh] font-custom">
       <div className=" w-[100%] py-14 flex items-center justify-center">
         <div className="w-[80%] h-[70vh] mx-auto bg-[#18212F] rounded-lg flex items-center">

@@ -7,21 +7,27 @@ import {
   import "@solana/wallet-adapter-react-ui/styles.css";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../redux/userSlice";
   
   export default function WalletConnectModal({ onClose }) {
+    const dispatch = useDispatch()
+    const loggedInUser = useSelector((state)=>state?.user)
     const { publicKey, connected, disconnect } = useWallet(); 
+    console.log("Userrr", loggedInUser)
+
     const navigate = useNavigate()
     useEffect(() => {
         const sendWalletToBackend = async () => {
             if (connected && publicKey) {
                 try {
-                    const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/user/connect-wallet`, { // Replace with your backend endpoint
+                    const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/user/connect-wallet`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ publicKey: publicKey.toString() }), // Send public key as string
+                        body: JSON.stringify({ publicKey: publicKey.toString() }), 
                     });
 
                     if (!response.ok) {
@@ -29,8 +35,11 @@ import { useNavigate } from "react-router-dom";
                         throw new Error(`HTTP error! status: ${response.status} message: ${errorData.message}`);
                     }
                     const data = await response.json()
-                    
+                    console.log(data.data.newUser)
+                    dispatch(setUser(data?.data?.newUser))
                     onClose()
+                    
+                    localStorage.setItem("token",  publicKey.toString())
                     toast.success(data?.message)
                     navigate("/chat")
                 } catch (error) {

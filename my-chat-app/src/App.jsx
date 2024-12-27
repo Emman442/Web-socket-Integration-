@@ -1,36 +1,61 @@
-import { Outlet, Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
-import { ConnectionProvider, useWallet, WalletProvider } from "@solana/wallet-adapter-react";
+import React, { useMemo } from "react";
+import {
+  Outlet,
+  Route,
+  Routes,
+  BrowserRouter,
+  Navigate,
+} from "react-router-dom";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
-import { useMemo } from "react";
-
+import { 
+  SolflareWalletAdapter,
+  PhantomWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 import Home from "./pages/Home";
 import AuthLayouts from "./layout";
-import WalletConnectModal from "./components/WalletConnectModal"; // Adjust the path as necessary
+import WalletConnectModal from "./components/WalletConnectModal";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import Message from "./components/Message";
 import { Toaster } from "react-hot-toast";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-  const wallets = useMemo(() => [new UnsafeBurnerWalletAdapter()], [network]);
+
+  const wallets = useMemo(() => [
+    new SolflareWalletAdapter(),
+      new PhantomWalletAdapter(),
+  ], []);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <BrowserRouter>
           <Routes>
-            {/* Layout Route */}
-            <Route element={<AuthLayouts />}>
-              <Route path="/" element={<Navigate replace to="/home" />} />
-              <Route path="/home" element={<Home />} />
+            {/* Private Routes */}
+            <Route
+              element={
+                <PrivateRoute>
+                  <AuthLayouts />
+                  </PrivateRoute>
+              }
+            >
               <Route path="/chat" element={<Message />} />
             </Route>
+            <Route path="/" element={<Navigate replace to="/home" />} />
+              <Route path="/home" element={<Home />} />
+
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         </BrowserRouter>
+
         <Toaster
           position="top-center"
           gutter={12}

@@ -4,10 +4,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     _id: "",
-  name: "",
-  email: "",
   profile_pic: "",
   token: "",
+  address: "",
   onlineUser: [],
   // socketConnection: null
 };
@@ -18,8 +17,7 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action)=>{
         state._id = action.payload._id
-        state.name = action.payload.name
-        state.email = action.payload.email
+        state.address = action.payload.address
         state.profile_pic = action.payload.profile_pic
     },
     setToken: (state, action) =>{
@@ -27,8 +25,7 @@ export const userSlice = createSlice({
     },
     logout: (state, action) =>{
         state._id = ""
-        state.name = ""
-        state.email = ""
+        state.address=""
         state.profile_pic =""
         state.token=""
         // state.socketConnection = null
